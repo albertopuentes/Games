@@ -34,8 +34,22 @@ ball.shape("square")
 ball.color("white")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 0.3
-ball.dy = -0.3
+ball.dx = 0.2
+ball.dy = -0.2
+
+# Pen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write("Player A: 0  Player B: 0", align="center", font=("Courier", 24, "normal"))
+
+# Score
+score_a = 0
+score_b = 0
+
 
 # Function
 def paddle_a_up():
@@ -83,6 +97,25 @@ while True:
         ball.sety(-290)
         ball.dy *= -1
 
-     if ball.xcor() > 390:
-        ball.sety(0)
+    if ball.xcor() > 390:
+        ball.goto(0, 0)
         ball.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+
+    if ball.xcor() < -390:
+        ball.goto(0, 0)
+        ball.dx *= -1
+        score_b += 1
+        pen.clear()
+        pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+    
+    # Paddle and Ball collision
+    if ball.xcor() > 340 and ball.xcor() < 350 and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() -40):
+        ball.setx(340)
+        ball.dx *= -1 
+
+    if ball.xcor() < -340 and ball.xcor() > -350 and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() -40):
+        ball.setx(-340)
+        ball.dx *= -1 
